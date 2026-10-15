@@ -1,0 +1,1211 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <style>
+    :root {
+      color-scheme: light;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0);
+      padding-bottom: env(safe-area-inset-bottom, 0)
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0)
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #000
+    }
+
+    img {
+      max-width: 100%
+    }
+
+    [hidden]:not([hidden=until-found i]) {
+      display: none !important
+    }
+  </style>
+</head>
+
+<body>
+  <title>Del alfabeto a las redes</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg: #eef0f4;
+      --surface: #ffffff;
+      --fg: #141824;
+      --muted: #566075;
+      --line: #d3d8e2;
+      --era-a: #8a5a12;
+      --era-b: #0f766e;
+      --era-c: #3b4fc4;
+      --era-d: #c2255c;
+      --era: var(--era-a);
+      --f-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+      --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme=light]) {
+        --bg: #0e121b;
+        --surface: #171c28;
+        --fg: #eceff6;
+        --muted: #9aa3b8;
+        --line: #2a3142;
+        --era-a: #e0a64a;
+        --era-b: #4fd1c5;
+        --era-c: #8ea2ff;
+        --era-d: #ff6b9a;
+        color-scheme: dark
+      }
+    }
+
+    :root[data-theme=dark] {
+      --bg: #0e121b;
+      --surface: #171c28;
+      --fg: #eceff6;
+      --muted: #9aa3b8;
+      --line: #2a3142;
+      --era-a: #e0a64a;
+      --era-b: #4fd1c5;
+      --era-c: #8ea2ff;
+      --era-d: #ff6b9a;
+      color-scheme: dark
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      html {
+        scroll-behavior: auto
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--f-body);
+      font-size: 16px;
+      line-height: 1.6;
+      padding-inline: 16px;
+      padding-block: 0 56px
+    }
+
+    .wrap {
+      max-width: 1040px;
+      margin-inline: auto
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--f-display);
+      text-wrap: balance;
+      line-height: 1.08;
+      margin: 0
+    }
+
+    p {
+      margin: 0
+    }
+
+    a {
+      color: inherit
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--era, var(--fg));
+      outline-offset: 3px;
+      border-radius: 4px
+    }
+
+    .nav {
+      position: sticky;
+      top: env(safe-area-inset-top, 0);
+      z-index: 5;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      margin-inline: -16px;
+      padding-inline: 16px
+    }
+
+    .nav ul {
+      list-style: none;
+      margin: 0 auto;
+      padding: 10px 0;
+      max-width: 1040px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto
+    }
+
+    .nav a {
+      display: block;
+      white-space: nowrap;
+      text-decoration: none;
+      font-family: var(--f-mono);
+      font-size: 13px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted)
+    }
+
+    .nav a:hover {
+      color: var(--fg);
+      border-color: var(--fg)
+    }
+
+    .hero {
+      padding-block: 56px 40px
+    }
+
+    .kicker {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted)
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 8vw, 5.4rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-top: 14px
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--era-a), var(--era-b), var(--era-c), var(--era-d));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .hero .sub {
+      font-size: 1.2rem;
+      max-width: 60ch;
+      margin-top: 18px;
+      color: var(--muted)
+    }
+
+    .team {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      margin-top: 22px;
+      font-size: 14px
+    }
+
+    .team b {
+      font-weight: 600
+    }
+
+    .team span {
+      font-family: var(--f-mono);
+      color: var(--muted)
+    }
+
+    .tl {
+      list-style: none;
+      margin: 40px 0 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      position: relative
+    }
+
+    .tl::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 11px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--era-a), var(--era-b), var(--era-c), var(--era-d));
+      border-radius: 2px
+    }
+
+    .tl a {
+      display: block;
+      text-decoration: none;
+      padding-top: 34px;
+      position: relative
+    }
+
+    .tl a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 5px solid var(--c)
+    }
+
+    .tl .when {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      color: var(--c);
+      font-weight: 500
+    }
+
+    .tl .name {
+      font-family: var(--f-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      line-height: 1.2;
+      margin-top: 4px;
+      display: block
+    }
+
+    .tl .shift {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.45
+    }
+
+    .tl a:hover .name {
+      text-decoration: underline;
+      text-decoration-color: var(--c);
+      text-underline-offset: 4px
+    }
+
+    .hito {
+      margin-top: 72px;
+      scroll-margin-top: 70px
+    }
+
+    .hito.a {
+      --era: var(--era-a)
+    }
+
+    .hito.b {
+      --era: var(--era-b)
+    }
+
+    .hito.c {
+      --era: var(--era-c)
+    }
+
+    .hito.d {
+      --era: var(--era-d)
+    }
+
+    .h-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 16px
+    }
+
+    .eyebrow {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--era);
+      font-weight: 500;
+      flex-basis: 100%
+    }
+
+    .h-head h2 {
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.01em
+    }
+
+    .date {
+      font-family: var(--f-mono);
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .h-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 28px;
+      margin-top: 24px;
+      align-items: center
+    }
+
+    .ill {
+      margin: 0;
+      background: color-mix(in srgb, var(--era) 9%, var(--surface));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px
+    }
+
+    .ill svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 280px
+    }
+
+    .ill figcaption {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 8px;
+      font-family: var(--f-mono)
+    }
+
+    .ink {
+      stroke: var(--fg);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .eras {
+      stroke: var(--era);
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .eraf {
+      fill: var(--era);
+      stroke: none
+    }
+
+    .soft {
+      fill: color-mix(in srgb, var(--era) 18%, var(--surface));
+      stroke: var(--era);
+      stroke-width: 3
+    }
+
+    .txt {
+      fill: var(--fg);
+      font-family: Georgia, "Times New Roman", serif
+    }
+
+    .txtb {
+      fill: var(--bg);
+      font-family: var(--f-mono);
+      font-weight: 500
+    }
+
+    .lead {
+      font-size: 1.25rem;
+      line-height: 1.45;
+      font-weight: 500;
+      max-width: 38ch
+    }
+
+    .ba {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px
+    }
+
+    .ba div {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 15px;
+      min-width: 0
+    }
+
+    .ba span {
+      display: block;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px
+    }
+
+    .ba .after {
+      border-color: var(--era)
+    }
+
+    .ba .after span {
+      color: var(--era)
+    }
+
+    .analysis {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      min-width: 0
+    }
+
+    .card h3 {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--era);
+      font-weight: 500;
+      margin-bottom: 4px
+    }
+
+    .card .q {
+      font-family: var(--f-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1.25;
+      margin-bottom: 10px
+    }
+
+    .card p {
+      font-size: 15px;
+      color: var(--muted)
+    }
+
+    .card p+p {
+      margin-top: 8px
+    }
+
+    .card .fact {
+      color: var(--fg)
+    }
+
+    .butterfly {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: stretch;
+      gap: 12px
+    }
+
+    .butterfly .b {
+      background: color-mix(in srgb, var(--era) 9%, var(--surface));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 20px;
+      min-width: 0
+    }
+
+    .butterfly .b span {
+      display: block;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--era);
+      margin-bottom: 4px
+    }
+
+    .butterfly .b p {
+      font-size: 15px
+    }
+
+    .butterfly .arrow {
+      align-self: center;
+      font-family: var(--f-display);
+      font-size: 2rem;
+      color: var(--era);
+      line-height: 1
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .block {
+      margin-top: 88px;
+      scroll-margin-top: 70px
+    }
+
+    .block h2 {
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      font-weight: 800
+    }
+
+    .block>.intro {
+      color: var(--muted);
+      max-width: 60ch;
+      margin-top: 12px;
+      font-size: 1.05rem
+    }
+
+    .voices {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px
+    }
+
+    .voice {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      min-width: 0
+    }
+
+    .voice b {
+      font-family: var(--f-display);
+      font-size: 1.15rem;
+      display: block;
+      margin-bottom: 8px
+    }
+
+    .voice p {
+      font-size: 15px;
+      color: var(--muted)
+    }
+
+    .voice.axel p {
+      color: var(--fg);
+      font-style: italic
+    }
+
+    .punch {
+      margin-top: 28px;
+      font-family: var(--f-display);
+      font-size: clamp(1.4rem, 3.4vw, 2.1rem);
+      font-weight: 700;
+      line-height: 1.2;
+      max-width: 30ch;
+      text-wrap: balance
+    }
+
+    .punch em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--era-c), var(--era-d));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .evid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      min-width: 0
+    }
+
+    .stat .n {
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--era-d);
+      font-variant-numeric: tabular-nums
+    }
+
+    .stat .l {
+      margin-top: 8px;
+      font-size: 15px
+    }
+
+    .stat .s {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 70ch
+    }
+
+    .note a {
+      color: var(--fg);
+      text-underline-offset: 3px
+    }
+
+    .essay {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: clamp(20px, 4vw, 40px)
+    }
+
+    .essay .qq {
+      font-family: var(--f-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.3;
+      margin-bottom: 16px
+    }
+
+    .essay p {
+      max-width: 65ch
+    }
+
+    .essay p+p {
+      margin-top: 12px
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 24px
+    }
+
+    .compare div {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 15px;
+      min-width: 0
+    }
+
+    .compare span {
+      display: block;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px
+    }
+
+    .refs {
+      list-style: none;
+      margin: 24px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 12px
+    }
+
+    .refs li {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 18px 14px calc(18px + 1.5em);
+      text-indent: -1.5em;
+      font-size: 15px;
+      overflow-wrap: anywhere
+    }
+
+    .refs a {
+      text-underline-offset: 3px
+    }
+
+    .refs .rt {
+      display: inline-block;
+      text-indent: 0;
+      margin-left: 8px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 10px
+    }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--f-mono)
+    }
+
+    @media (max-width:860px) {
+
+      .analysis,
+      .evid,
+      .voices {
+        grid-template-columns: 1fr
+      }
+
+      .h-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media (max-width:720px) {
+      .tl {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding-left: 0
+      }
+
+      .tl::before {
+        left: 11px;
+        right: auto;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        height: auto;
+        background: linear-gradient(180deg, var(--era-a), var(--era-b), var(--era-c), var(--era-d))
+      }
+
+      .tl a {
+        padding-top: 0;
+        padding-left: 44px
+      }
+
+      .tl a::before {
+        top: 2px
+      }
+
+      .butterfly {
+        grid-template-columns: 1fr
+      }
+
+      .butterfly .arrow {
+        transform: rotate(90deg);
+        justify-self: center
+      }
+
+      .ba,
+      .compare {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+  <nav class="nav" aria-label="Secciones">
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#a">A · Escritura</a></li>
+      <li><a href="#b">B · Radio</a></li>
+      <li><a href="#c">C · Satélite</a></li>
+      <li><a href="#d">D · Redes</a></li>
+      <li><a href="#tesis">Tesis</a></li>
+      <li><a href="#evidencia">Evidencia</a></li>
+      <li><a href="#ensayo">Ensayo</a></li>
+      <li><a href="#fuentes">Fuentes</a></li>
+    </ul>
+  </nav>
+  <main class="wrap">
+    <header class="hero" id="inicio">
+      <p class="kicker">Línea del Tiempo Analítica</p>
+      <h1>Del alfabeto<span>a las redes</span></h1>
+      <p class="sub">Cuatro hitos donde cambió el medio y, con el medio, cambió quién puede hablar, cuánto tarda un
+        mensaje y cómo entendemos el tiempo y el espacio.</p>
+      <p class="team"><b>Axel Barba Rico<span>5126180007</span></b><b>Felipe de Jesús Camacho
+          Barrera<span>5126180005</span></b><b>Diego Alejandro Chitala Lemus<span>512618004</span></b></p>
+      <ol class="tl">
+        <li><a href="#a" style="--c:var(--era-a)"><span class="when">c. 450 a.C.</span><span class="name">Escritura
+              fonética y XII Tablas</span><span class="shift">De la ley que dicen los sacerdotes a la ley que cualquiera
+              puede leer.</span></a></li>
+        <li><a href="#b" style="--c:var(--era-b)"><span class="when">1933</span><span class="name">Radiofonía y Fireside
+              Chats</span><span class="shift">De la plaza y el periódico a la voz del presidente en la sala.</span></a>
+        </li>
+        <li><a href="#c" style="--c:var(--era-c)"><span class="when">1962 y 1969</span><span class="name">Telstar y
+              Apolo 11</span><span class="shift">De enterarse después a verlo en vivo con medio mundo.</span></a></li>
+        <li><a href="#d" style="--c:var(--era-d)"><span class="when">2004 a 2011</span><span class="name">Web 2.0 y
+              Primavera Árabe</span><span class="shift">De consumir contenido a producirlo.</span></a></li>
+      </ol>
+    </header>
+    <section class="hito a" id="a">
+      <div class="h-head">
+        <p class="eyebrow">Hito A · Diego</p>
+        <h2>Escritura fonética y Ley de las XII Tablas</h2>
+        <p class="date">c. 450 a.C.</p>
+      </div>
+      <div class="h-grid">
+        <figure class="ill"><svg viewBox="0 0 320 220" role="img"
+            aria-label="Tablilla de piedra con letras griegas y el número XII">
+            <rect class="soft" x="62" y="14" width="196" height="192" rx="16" /><text class="txt" x="160" y="62"
+              font-size="24" text-anchor="middle" letter-spacing="5">ΑΒΓΔΕΖΗ</text><text class="txt" x="160" y="100"
+              font-size="24" text-anchor="middle" letter-spacing="5">ΘΙΚΛΜΝΞ</text><text class="txt" x="160" y="138"
+              font-size="24" text-anchor="middle" letter-spacing="5">ΟΠΡΣΤΥΦ</text><text class="txt" x="160" y="176"
+              font-size="24" text-anchor="middle" letter-spacing="5">ΧΨΩ</text>
+            <circle class="eraf" cx="254" cy="36" r="27" /><text class="txtb" x="254" y="42" font-size="17"
+              text-anchor="middle">XII</text>
+          </svg>
+          <figcaption>Ilustración: tablilla con alfabeto griego</figcaption>
+        </figure>
+        <div>
+          <p class="lead">La ley dejó de ser algo que interpretaban los sacerdotes en voz alta y pasó a ser un texto que
+            cualquiera podía ir a leer.</p>
+          <div class="ba">
+            <div><span>Antes</span>Memoria oral y signos que solo dominaba una élite.</div>
+            <div class="after"><span>Después</span>Ley escrita, fija y pública.</div>
+          </div>
+        </div>
+      </div>
+      <div class="analysis">
+        <article class="card">
+          <h3>McLuhan</h3>
+          <p class="q">El alfabeto separa la palabra de quien la dice.</p>
+          <p>El alfabeto fonético (griego, hacia el siglo VIII a.C.) convierte el sonido en una cosa fija que se puede
+            guardar y consultar. La sociedad pasa de recordar a leer, y de obedecer a una persona a obedecer una norma.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Habermas</h3>
+          <p class="q">¿Quién podía hablar de la ley?</p>
+          <p><b>Antes:</b>sacerdotes y patricios la interpretaban de palabra.</p>
+          <p><b>Después:</b>quien supiera leer podía conocerla y discutirla.</p>
+        </article>
+        <article class="card">
+          <h3>Hecho de quiebre</h3>
+          <p class="q">Ley de las XII Tablas, c. 450 a.C.</p>
+          <p class="fact">Los plebeyos de Roma exigían saber qué decía la ley. El resultado fue un código escrito y
+            expuesto en público.</p>
+        </article>
+      </div>
+      <div class="butterfly">
+        <div class="b"><span>Intención</span>
+          <p>Registrar sonidos y facilitar el comercio.</p>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="b"><span>Realidad</span>
+          <p>Base del derecho escrito y de la idea de que nadie está por encima de la ley.</p>
+        </div>
+      </div>
+    </section>
+    <section class="hito b" id="b">
+      <div class="h-head">
+        <p class="eyebrow">Hito B · Diego</p>
+        <h2>Radiofonía y Fireside Chats de Roosevelt</h2>
+        <p class="date">1880s a 1933</p>
+      </div>
+      <div class="h-grid">
+        <figure class="ill"><svg viewBox="0 0 320 220" role="img" aria-label="Radio antigua con antena y ondas">
+            <path class="eras" d="M262 12 A38 38 0 0 1 300 50" />
+            <path class="eras" d="M262 26 A24 24 0 0 1 286 50" />
+            <path class="eras" d="M262 38 A12 12 0 0 1 274 50" />
+            <circle class="eraf" cx="262" cy="50" r="5" />
+            <line class="ink" x1="226" y1="108" x2="262" y2="50" />
+            <rect class="soft" x="46" y="108" width="228" height="98" rx="16" />
+            <circle class="ink" cx="108" cy="157" r="36" />
+            <circle class="ink" cx="108" cy="157" r="26" />
+            <circle class="ink" cx="108" cy="157" r="16" />
+            <circle class="eraf" cx="108" cy="157" r="5" />
+            <rect class="ink" x="170" y="126" width="84" height="22" rx="6" />
+            <line class="eras" x1="196" y1="130" x2="196" y2="144" />
+            <circle class="ink" cx="190" cy="177" r="11" />
+            <circle class="ink" cx="228" cy="177" r="11" />
+            <line class="ink" x1="190" y1="170" x2="190" y2="177" />
+            <line class="ink" x1="228" y1="177" x2="234" y2="172" />
+          </svg>
+          <figcaption>Ilustración: radio y ondas electromagnéticas</figcaption>
+        </figure>
+        <div>
+          <p class="lead">La política salió de la plaza y del periódico y entró a la casa, con la voz del líder.</p>
+          <div class="ba">
+            <div><span>Antes</span>El discurso llegaba por la prensa o en actos presenciales.</div>
+            <div class="after"><span>Después</span>El presidente habla directo a millones de hogares.</div>
+          </div>
+        </div>
+      </div>
+      <div class="analysis">
+        <article class="card">
+          <h3>McLuhan</h3>
+          <p class="q">La radio funciona como un tambor tribal.</p>
+          <p>La voz transmite cercanía y emoción antes que argumentos. Escuchar al mismo tiempo que miles de personas
+            crea una comunidad que antes no existía.</p>
+        </article>
+        <article class="card">
+          <h3>Habermas</h3>
+          <p class="q">¿Quién podía hablar?</p>
+          <p><b>Antes:</b>el político dependía de la prensa o de un mitin.</p>
+          <p><b>Después:</b>habla sin intermediarios y entra a la vida privada.</p>
+        </article>
+        <article class="card">
+          <h3>Hecho de quiebre</h3>
+          <p class="q">Primera Fireside Chat, marzo de 1933</p>
+          <p class="fact">En plena crisis bancaria, Roosevelt explicó por radio cómo funcionaba el sistema. La gente
+            volvió a depositar su dinero en los bancos.</p>
+        </article>
+      </div>
+      <div class="butterfly">
+        <div class="b"><span>Intención</span>
+          <p>Telegrafía sin cables, pensada para barcos. Hertz demostró las ondas en los 1880s y Marconi las aplicó
+            entre 1895 y 1901.</p>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="b"><span>Realidad</span>
+          <p>Medio de masas, propaganda y política emocional. Las emisiones comerciales arrancaron en 1920.</p>
+        </div>
+      </div>
+    </section>
+    <section class="hito c" id="c">
+      <div class="h-head">
+        <p class="eyebrow">Hito C · Axel</p>
+        <h2>Telstar y Apolo 11</h2>
+        <p class="date">1962 y 1969</p>
+      </div>
+      <div class="h-grid">
+        <figure class="ill"><svg viewBox="0 0 320 220" role="img" aria-label="Satélite entre la Tierra y la Luna">
+            <circle class="soft" cx="30" cy="262" r="120" />
+            <circle class="soft" cx="258" cy="62" r="34" />
+            <circle class="eras" cx="248" cy="52" r="6" />
+            <circle class="eras" cx="270" cy="74" r="4" />
+            <path class="ink" stroke-dasharray="3 9" d="M80 146 Q150 20 232 52" />
+            <circle class="soft" cx="150" cy="112" r="24" />
+            <path class="eras" d="M150 88 L150 136 M126 112 L174 112 M133 95 L167 129 M167 95 L133 129"
+              stroke-width="1.5" />
+            <line class="ink" x1="150" y1="88" x2="150" y2="72" />
+            <path class="eras" d="M186 96 A32 32 0 0 1 186 128" />
+            <path class="eras" d="M198 88 A44 44 0 0 1 198 136" />
+            <line class="ink" x1="258" y1="28" x2="258" y2="14" />
+            <path class="eraf" d="M258 14 L276 19 L258 24 Z" />
+          </svg>
+          <figcaption>Ilustración: satélite, Tierra y Luna</figcaption>
+        </figure>
+        <div>
+          <p class="lead">El mundo pasó de enterarse de los hechos días o semanas después a verlos en vivo, junto con
+            millones de personas.</p>
+          <div class="ba">
+            <div><span>Antes</span>La noticia cruzaba el océano en días, por barco o cable.</div>
+            <div class="after"><span>Después</span>La imagen cruza el Atlántico en directo.</div>
+          </div>
+        </div>
+      </div>
+      <div class="analysis">
+        <article class="card">
+          <h3>McLuhan</h3>
+          <p class="q">La aldea global.</p>
+          <p>La televisión por satélite hace que el planeta se viva como un solo espacio con una experiencia simultánea.
+            La distancia deja de ser un obstáculo para compartir un momento.</p>
+        </article>
+        <article class="card">
+          <h3>Habermas</h3>
+          <p class="q">¿Quién decidía qué se veía?</p>
+          <p><b>Antes:</b>las élites y los medios nacionales.</p>
+          <p><b>Después:</b>miles de millones ven lo mismo, pero quien controla la señal controla la narrativa.</p>
+        </article>
+        <article class="card">
+          <h3>Hechos de quiebre</h3>
+          <p class="q">Telstar (1962) y Apolo 11 (1969)</p>
+          <p class="fact">Telstar se lanzó el 10 de julio de 1962 y abrió la televisión transatlántica en vivo. El 20 de
+            julio de 1969, unos 600 millones de personas (cifra estimada) vieron la llegada a la Luna.</p>
+        </article>
+      </div>
+      <div class="butterfly">
+        <div class="b"><span>Intención</span>
+          <p>Mejorar las telecomunicaciones y ganar prestigio en la Guerra Fría.</p>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="b"><span>Realidad</span>
+          <p>La primera conciencia global simultánea y, después, el espectáculo mediático permanente.</p>
+        </div>
+      </div>
+    </section>
+    <section class="hito d" id="d">
+      <div class="h-head">
+        <p class="eyebrow">Hito D · Felipe</p>
+        <h2>Web 2.0 y Primavera Árabe</h2>
+        <p class="date">2004 a 2011</p>
+      </div>
+      <div class="h-grid">
+        <figure class="ill"><svg viewBox="0 0 320 220" role="img"
+            aria-label="Red de personas conectadas alrededor de un celular">
+            <g class="ink" stroke-width="1.5" opacity=".55">
+              <line x1="160" y1="110" x2="58" y2="50" />
+              <line x1="160" y1="110" x2="112" y2="26" />
+              <line x1="160" y1="110" x2="220" y2="26" />
+              <line x1="160" y1="110" x2="272" y2="56" />
+              <line x1="160" y1="110" x2="284" y2="122" />
+              <line x1="160" y1="110" x2="250" y2="190" />
+              <line x1="160" y1="110" x2="160" y2="202" />
+              <line x1="160" y1="110" x2="76" y2="178" />
+              <line x1="160" y1="110" x2="38" y2="116" />
+              <line x1="58" y1="50" x2="112" y2="26" />
+              <line x1="220" y1="26" x2="272" y2="56" />
+              <line x1="284" y1="122" x2="250" y2="190" />
+              <line x1="76" y1="178" x2="38" y2="116" />
+              <line x1="272" y1="56" x2="284" y2="122" />
+              <line x1="58" y1="50" x2="38" y2="116" />
+            </g>
+            <g class="eraf">
+              <circle cx="58" cy="50" r="10" />
+              <circle cx="112" cy="26" r="10" />
+              <circle cx="220" cy="26" r="10" />
+              <circle cx="272" cy="56" r="10" />
+              <circle cx="284" cy="122" r="10" />
+              <circle cx="250" cy="190" r="10" />
+              <circle cx="160" cy="202" r="10" />
+              <circle cx="76" cy="178" r="10" />
+              <circle cx="38" cy="116" r="10" />
+            </g>
+            <rect class="soft" x="136" y="72" width="48" height="76" rx="10" />
+            <rect class="ink" x="143" y="82" width="34" height="48" rx="3" />
+            <circle class="eraf" cx="160" cy="139" r="3.5" />
+          </svg>
+          <figcaption>Ilustración: comunicación horizontal en red</figcaption>
+        </figure>
+        <div>
+          <p class="lead">La gente dejó de solo consumir contenido y pasó a producirlo. La comunicación dejó de ir de
+            arriba hacia abajo.</p>
+          <div class="ba">
+            <div><span>Antes</span>Hablaban los gobiernos y los grandes medios.</div>
+            <div class="after"><span>Después</span>Habla cualquiera con un celular.</div>
+          </div>
+        </div>
+      </div>
+      <div class="analysis">
+        <article class="card">
+          <h3>McLuhan</h3>
+          <p class="q">El medio es la red misma.</p>
+          <p>La interactividad, la inmediatez y la viralidad cambian cómo nos organizamos, no solo lo que decimos.
+            Facebook (2004), YouTube (2005) y Twitter (2006) hicieron de subir contenido algo cotidiano.</p>
+        </article>
+        <article class="card">
+          <h3>Habermas</h3>
+          <p class="q">¿Quién podía hablar?</p>
+          <p><b>Antes:</b>gobiernos y grandes medios.</p>
+          <p><b>Después:</b>cualquier persona con conexión. La esfera pública se amplía y también se fragmenta.</p>
+        </article>
+        <article class="card">
+          <h3>Hecho de quiebre</h3>
+          <p class="q">Primavera Árabe, 2010 y 2011</p>
+          <p class="fact">Tras la inmolación de Mohamed Bouazizi (17 de diciembre de 2010), la protesta se organizó por
+            redes en Túnez y cayó Ben Ali en enero de 2011. En Egipto el gobierno cortó internet el 28 de enero y aun
+            así Mubarak renunció el 11 de febrero.</p>
+        </article>
+      </div>
+      <div class="butterfly">
+        <div class="b"><span>Intención</span>
+          <p>Conectar amigos y compartir contenido.</p>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="b"><span>Realidad</span>
+          <p>Economía de datos, algoritmos, desinformación y vigilancia, además de organización social.</p>
+        </div>
+      </div>
+      <p class="tag">Debate abierto: hay académicos que discuten si las redes fueron decisivas en la Primavera Árabe o
+        solo una herramienta más.</p>
+    </section>
+    <section class="block" id="tesis">
+      <h2>El tiempo no se achicó ni se alargó</h2>
+      <p class="intro">Para el equipo, el tiempo se densificó: caben más cosas en el mismo día y casi todo es inmediato.
+      </p>
+      <p class="punch">Hacemos<em>más</em>en el mismo tiempo, y esperamos respuesta<em>ya</em>.</p>
+      <div class="voices">
+        <div class="voice"><b>Felipe</b>
+          <p>Si bien no se achicó, tampoco se alargó. Nuestras responsabilidades se dividieron y hacemos más a costa del
+            mismo tiempo.</p>
+        </div>
+        <div class="voice"><b>Diego</b>
+          <p>Sí se achicó, porque ahora hacemos más cosas en el mismo tiempo y todo es inmediato. Antes se iba en barco
+            o a caballo, ahora se necesita llegar casi al instante.</p>
+        </div>
+        <div class="voice axel"><b>Axel</b>
+          <p>“Realmente no tengo sobre dicha información, ya que no he vivido, por cuestiones de tiempo, nada más el
+            siglo XIX. Aunque claro, en mi breve opinión, podría decirse que no lo sé, tal vez sí, tal vez no, no soy
+            quien para opinar del tema. Charlie Kirk tampoco debía opinar, pero metió su cuchara. Pero en mi humilde
+            opinión, nuestra vida no ha hecho más que empeorar, y esto es culpa del capitalismo.”</p>
+        </div>
+      </div>
+    </section>
+    <section class="block hito d" id="evidencia">
+      <p class="eyebrow"
+        style="font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--era);margin-bottom:8px">
+        Efecto mariposa · evidencia actual</p>
+      <h2>Los videos cortos y la atención</h2>
+      <p class="intro">Las redes nacieron para conectar. Hoy el algoritmo de TikTok recomienda videos cortos según lo
+        que cada persona mira, y hay estudios que relacionan ese consumo con peor rendimiento cognitivo.</p>
+      <div class="evid">
+        <div class="stat">
+          <div class="n">71</div>
+          <p class="l">estudios revisados</p>
+          <p class="s">con 98,299 participantes</p>
+        </div>
+        <div class="stat">
+          <div class="n">−.38</div>
+          <p class="l">correlación con la atención</p>
+          <p class="s">más uso, menor rendimiento</p>
+        </div>
+        <div class="stat">
+          <div class="n">−.41</div>
+          <p class="l">correlación con el control inhibitorio</p>
+          <p class="s">la asociación más fuerte</p>
+        </div>
+      </div>
+      <p class="note">Fuente: metaanálisis “Feeds, feelings, and focus”,<i>Psychological Bulletin</i>, vol. 151(9), 2025
+        (<a href="https://ifp.nyu.edu/2025/journal-article-abstracts/bul0000498/">resumen</a>). Es una asociación entre
+        uso y rendimiento. Un metaanálisis de este tipo no prueba por sí solo que los videos cortos causen el problema,
+        y el estudio habla de videos cortos en general, no solo de TikTok.</p>
+    </section>
+    <section class="block" id="ensayo">
+      <h2>Conclusión</h2>
+      <div class="essay">
+        <p class="qq">¿De qué manera el método de comunicación actual ha modificado nuestra percepción del tiempo y el
+          espacio en comparación con el siglo XIX?</p>
+        <p>En el siglo XIX la distancia todavía mandaba. Una noticia cruzaba el Atlántico en barco, en días o semanas, y
+          el telégrafo apenas empezaba a acortar eso: el primer cable transatlántico duradero es de 1866.</p>
+        <p>Hoy el espacio casi no importa y el tiempo es un presente continuo. Pero no ganamos tiempo, lo densificamos.
+          Hacemos más en el mismo día, atendemos más frentes a la vez y esperamos respuesta ya.</p>
+        <p>Cada medio, de la escritura a las redes, amplió quién puede hablar. Con él cambió también cómo percibimos el
+          tiempo y el espacio.</p>
+        <div class="compare">
+          <div><span>Siglo XIX</span>Distancia que se mide en días de viaje. Noticias con retraso. Pocos emisores.</div>
+          <div><span>Hoy</span>Distancia que casi no cuenta. Todo inmediato. Cualquiera emite.</div>
+        </div>
+      </div>
+    </section>
+    <section class="block" id="fuentes">
+      <h2>Fuentes</h2>
+      <p class="intro">Fichas bibliográficas en formato APA 7, en orden alfabético.</p>
+      <ol class="refs">
+        <li>Granath, B. (2012, 10 de julio).<i>Telstar opened era of global satellite television</i>. NASA.<a
+            href="https://www.nasa.gov/content/telstar-opened-era-of-global-satellite-television">https://www.nasa.gov/content/telstar-opened-era-of-global-satellite-television</a><span
+            class="rt">Hito C</span></li>
+        <li>Habermas, J. (1962).<i>Strukturwandel der Öffentlichkeit</i>. Luchterhand.<span class="rt">Marco
+            teórico</span></li>
+        <li>Harris, W. A. (2021, 10 de marzo).<i>Celebrating the first fireside chat</i>. Forward with Roosevelt,
+          Franklin D. Roosevelt Presidential Library and Museum.<a
+            href="https://fdr.blogs.archives.gov/2021/03/10/celebrating-the-first-fireside-chat/">https://fdr.blogs.archives.gov/2021/03/10/celebrating-the-first-fireside-chat/</a><span
+            class="rt">Hito B</span></li>
+        <li>Howard, P. N., y Hussain, M. M. (2013).<i>Democracy's fourth wave? Digital media and the Arab Spring</i>.
+          Oxford University Press.<span class="rt">Hito D</span></li>
+        <li>McLuhan, M. (1964).<i>Understanding media: The extensions of man</i>. McGraw-Hill.<span class="rt">Marco
+            teórico</span></li>
+        <li>Nguyen, L., Walters, J., Paul, S., Monreal Ijurco, S., Rainey, G. E., Parekh, N., Blair, G., y Darrah, M.
+          (2025). Feeds, feelings, and focus: A systematic review and meta-analysis examining the cognitive and mental
+          health correlates of short-form video use.<i>Psychological Bulletin, 151</i>(9), 1125-1146.<a
+            href="https://doi.org/10.1037/bul0000498">https://doi.org/10.1037/bul0000498</a><span
+            class="rt">Evidencia</span></li>
+        <li>O'Reilly, T. (2005, 30 de septiembre).<i>What is Web 2.0</i>. O'Reilly Media.<span class="rt">Hito D</span>
+        </li>
+      </ol>
+    </section>
+    <footer>Línea del Tiempo Analítica · Marshall McLuhan y Jürgen Habermas · 13 de octubre de 2026</footer>
+  </main>
+</body>
+
+</html>
